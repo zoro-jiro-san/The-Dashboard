@@ -1,0 +1,24 @@
+{
+  "name": "the-dashboard",
+  "version": "0.0.1",
+  "description": "Pokemon-themed Mansion control center dashboard",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.0.0",
+    "jest": "^29.0.0",
+    "@playwright/test": "^1.40.0"
+  }
+}
