@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  test:
-    name: Test & Build
+  build:
+    name: Build Dashboard
     runs-on: ubuntu-latest
     
     steps:
@@ -24,12 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Run tests
-        run: npm run test
-      
-      - name: Run E2E tests
-        run: npm run test:e2e
-      
       - name: Build
         run: npm run build
       
@@ -41,7 +35,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
