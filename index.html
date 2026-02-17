@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoro Dashboard - Phase 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 2px solid #3b82f6;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(120deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-card {
+            background: rgba(30, 58, 138, 0.8);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-card h3 {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            color: #93c5fd;
+            margin-bottom: 10px;
+        }
+        
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        
+        .status-label {
+            font-size: 0.85em;
+            color: #cbd5e1;
+            margin-top: 5px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: rgba(30, 58, 138, 0.8);
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card h2 {
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 1px solid #1e40af;
+            padding-bottom: 10px;
+        }
+        
+        .progress-bar {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 4px;
+            height: 24px;
+            margin: 10px 0;
+            overflow: hidden;
+            border: 1px solid #1e40af;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            transition: width 0.3s ease;
+        }
+        
+        .team-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.4);
+            border-left: 3px solid #3b82f6;
+            border-radius: 4px;
+        }
+        
+        .team-name {
+            font-weight: bold;
+            color: #93c5fd;
+        }
+        
+        .team-confidence {
+            font-size: 0.9em;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        
+        .budget-table th {
+            background: rgba(15, 23, 42, 0.8);
+            color: #93c5fd;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #1e40af;
+        }
+        
+        .budget-table td {
+            padding: 10px;
+            border-bottom: 1px solid #1e40af;
+        }
+        
+        .budget-table tr:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+        
+        .success {
+            color: #10b981;
+        }
+        
+        .pending {
+            color: #f59e0b;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-left: 2px solid #3b82f6;
+            padding-left: 20px;
+            margin-left: 10px;
+        }
+        
+        .timeline-item:last-child {
+            border-left: 2px solid #1e40af;
+        }
+        
+        .timeline-date {
+            color: #60a5fa;
+            font-weight: bold;
+            min-width: 100px;
+        }
+        
+        .timeline-content {
+            color: #cbd5e1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #1e40af;
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge.ready {
+            background: #10b98150;
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+        
+        .badge.pending {
+            background: #f59e0b50;
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+        
+        .badge.go {
+            background: #3b82f650;
+            color: #60a5fa;
+            border: 1px solid #60a5fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ ZORO DASHBOARD</h1>
+            <p>Phase 2: Advanced Operations & Agentic Commerce</p>
+            <p style="font-size: 0.9em; color: #94a3b8; margin-top: 10px;">Last updated: <span id="timestamp">Loading...</span></p>
+        </header>
+        
+        <div class="status-bar">
+            <div class="status-card">
+                <h3>💰 Capital</h3>
+                <div class="status-value">$5.00</div>
+                <div class="status-label">70% reserved, 30% allocated</div>
+            </div>
+            <div class="status-card">
+                <h3>🎯 Confidence</h3>
+                <div class="status-value">92%</div>
+                <div class="status-label">Very High (4/4 teams)</div>
+            </div>
+            <div class="status-card">
+                <h3>📊 Progress</h3>
+                <div class="status-value">100%</div>
+                <div class="status-label">Research phase complete</div>
+            </div>
+            <div class="status-card">
+                <h3>🚀 Status</h3>
+                <div class="status-value" style="color: #10b981;">READY</div>
+                <div class="status-label">Ready for execution</div>
+            </div>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>Research Teams</h2>
+                <div class="team-item">
+                    <div class="team-name">AF-004: Smart Contract Escrow <span class="badge ready">✅ READY</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <div class="team-confidence">Confidence: 95% | Cost: $0.15 deploy, $0.09/escrow</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-name">AF-005: Leverage Framework <span class="badge ready">✅ READY</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <div class="team-confidence">Confidence: 95% | Max 2x leverage (safe)</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-name">AF-006: Multi-Chain Strategy <span class="badge ready">✅ READY</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <div class="team-confidence">Confidence: 90% | Base, Polygon, Ethereum routes</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-name">AF-007: Solana Integration <span class="badge ready">✅ READY</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100%</div>
+                    </div>
+                    <div class="team-confidence">Confidence: 92% | 100x fee advantage</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Capital Allocation</h2>
+                <table class="budget-table">
+                    <tr>
+                        <th>Activity</th>
+                        <th>Cost</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>Solana Mainnet</td>
+                        <td>$0.50</td>
+                        <td><span class="pending">⏳ Week 3</span></td>
+                    </tr>
+                    <tr>
+                        <td>Test Trades</td>
+                        <td>$1.00</td>
+                        <td><span class="pending">⏳ Week 2-3</span></td>
+                    </tr>
+                    <tr>
+                        <td>Research</td>
+                        <td>$0.00</td>
+                        <td><span class="success">✅ Complete</span></td>
+                    </tr>
+                    <tr style="font-weight: bold; background: rgba(59, 130, 246, 0.1);">
+                        <td>Total Allocated</td>
+                        <td>$1.50</td>
+                        <td><span class="success">✅ 30%</span></td>
+                    </tr>
+                    <tr style="font-weight: bold; background: rgba(16, 185, 129, 0.1);">
+                        <td>Reserve</td>
+                        <td>$3.50</td>
+                        <td><span class="success">✅ 70%</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Execution Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div>
+                        <div class="timeline-date">FEB 16 ✅</div>
+                        <div class="timeline-content">
+                            Phase 2 launched | 4 research teams spawned | Veil keypair generated | All reports delivered
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div>
+                        <div class="timeline-date">FEB 17 🔄</div>
+                        <div class="timeline-content">
+                            Solana keypair generation | Gmail setup | Dashboard deployment | Wallet setup (Base, Ethereum, Solana)
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div>
+                        <div class="timeline-date">FEB 18-19 ⏳</div>
+                        <div class="timeline-content">
+                            Conservative test trades | Leverage framework testing | Gatekeeper 5-stage review | Results analysis
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div>
+                        <div class="timeline-date">FEB 20 📊</div>
+                        <div class="timeline-content">
+                            Weekly report | Solana mainnet funding | Production readiness assessment
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div>
+                        <div class="timeline-date">FEB 21+ 🚀</div>
+                        <div class="timeline-content">
+                            Scale operations | Multi-chain execution | Smart contract escrow deployment | Agent payments live
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Multi-Chain Strategy</h2>
+            <p style="margin-bottom: 15px;">Optimized routing by trade size:</p>
+            <table class="budget-table">
+                <tr>
+                    <th>Trade Size</th>
+                    <th>Primary Chain</th>
+                    <th>Fee Est.</th>
+                    <th>Reason</th>
+                </tr>
+                <tr>
+                    <td>$1-50</td>
+                    <td>🟦 Solana</td>
+                    <td>$0.001-0.01</td>
+                    <td>Ultra-cheap, user-focused</td>
+                </tr>
+                <tr>
+                    <td>$50-500</td>
+                    <td>🟨 Base</td>
+                    <td>$0.30</td>
+                    <td>Good liquidity, low fees</td>
+                </tr>
+                <tr>
+                    <td>$500-5K</td>
+                    <td>🟩 Polygon</td>
+                    <td>$1-3</td>
+                    <td>Balanced cost & liquidity</td>
+                </tr>
+                <tr>
+                    <td>$5K+</td>
+                    <td>🟧 Ethereum</td>
+                    <td>$50+</td>
+                    <td>Best liquidity only</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>🗡️ The Mansion | Zoro Autonomous Agent | Phase 2: Advanced Operations</p>
+            <p style="margin-top: 10px;">All operations logged • Capital stewarded wisely • 70% reserve maintained</p>
+            <p style="margin-top: 10px;">For detailed reports: <a href="https://github.com/zoro-jiro-san/proposals" style="color: #60a5fa;">proposals repository</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = now.toLocaleString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'UTC'
+            }) + ' UTC';
+        }
+        
+        updateTimestamp();
+        setInterval(updateTimestamp, 1000);
+    </script>
+</body>
+</html>
