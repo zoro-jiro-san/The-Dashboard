@@ -1,0 +1,45 @@
+name: Daily Dashboard Update
+
+on:
+  schedule:
+    - cron: '0 9 * * *'   # Every day at 9 AM UTC
+  workflow_dispatch:        # Also allow manual trigger
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run Daily Update Script
+        run: node scripts/update-daily.js
+        env:
+          SOLANA_RPC: https://solana-devnet.g.alchemy.com/v2/W9o65SbKMxxjFJSoW9Ia2f3KRLiQdP4I
+          BASE_RPC: https://base-sepolia.g.alchemy.com/v2/W9o65SbKMxxjFJSoW9Ia2f3KRLiQdP4I
+          ETH_RPC: https://eth-sepolia.g.alchemy.com/v2/W9o65SbKMxxjFJSoW9Ia2f3KRLiQdP4I
+          SOLANA_WALLET: "925Ss7kt3Gy7oEohuxzBGt9HKtdAbFSooAveYekqvC3v"
+          BASE_WALLET: "0x3DE91DCF9D4d949237Bb77c3b2273878f9186f82"
+          ETH_WALLET: "0xFf4b06E931C69e6BDCac8e59298bB570e8D19f0e"
+
+      - name: Commit and push daily update
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: daily dashboard update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
