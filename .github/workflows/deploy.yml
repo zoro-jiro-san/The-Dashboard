@@ -16,16 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Build
-        run: npm run build
+      - name: Prepare deploy directory
+        run: |
+          mkdir -p dist/data
+          # Copy static HTML and data files to dist/
+          cp index.html dist/index.html
+          cp -r data/*.json dist/data/ 2>/dev/null || true
+          echo "✅ Static files copied to dist/"
+          ls -la dist/
+          ls -la dist/data/ 2>/dev/null || echo "(no data/ files)"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
