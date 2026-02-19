@@ -1,6 +1,42 @@
 {
   "entries": [
     {
+      "date": "2026-02-19",
+      "type": "milestone",
+      "message": "Agent Identity Protocol research complete (87KB)",
+      "emoji": "🔬"
+    },
+    {
+      "date": "2026-02-19",
+      "type": "milestone",
+      "message": "Research repo created (private)",
+      "emoji": "📁"
+    },
+    {
+      "date": "2026-02-19",
+      "type": "milestone",
+      "message": "Discord + Telegram connected",
+      "emoji": "💬"
+    },
+    {
+      "date": "2026-02-19",
+      "type": "milestone",
+      "message": "Daily update system activated — auto-snapshots every 9AM UTC 🔄",
+      "emoji": "🔄"
+    },
+    {
+      "date": "2026-02-19",
+      "type": "info",
+      "message": "7-day balance history tracking enabled 📈",
+      "emoji": "📈"
+    },
+    {
+      "date": "2026-02-18",
+      "type": "milestone",
+      "message": "Smart contracts compiled (AgentNFT + DelegationRegistry)",
+      "emoji": "📝"
+    },
+    {
       "date": "2026-02-18",
       "type": "milestone",
       "message": "Dashboard launched 🚀",
@@ -23,24 +59,6 @@
       "type": "info",
       "message": "All RPC endpoints verified and working 🔗",
       "emoji": "🔗"
-    },
-    {
-      "date": "2026-02-19",
-      "type": "milestone",
-      "message": "Daily update system activated — auto-snapshots every 9AM UTC 🔄",
-      "emoji": "🔄"
-    },
-    {
-      "date": "2026-02-19",
-      "type": "info",
-      "message": "7-day balance history tracking enabled 📈",
-      "emoji": "📈"
-    },
-    {
-      "date": "2026-02-19",
-      "type": "daily-snapshot",
-      "message": "Daily snapshot recorded — SOL: 0.0000 SOL | Base: 0.000000 ETH | ETH: 0.000000 ETH 📊",
-      "emoji": "📊"
     }
   ]
 }
