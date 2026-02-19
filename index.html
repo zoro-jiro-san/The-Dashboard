@@ -44,7 +44,57 @@
             color: #94a3b8;
             font-size: 1.1em;
         }
-        
+
+        /* ── Daily Update Meta Bar ── */
+        .daily-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 14px;
+        }
+
+        .last-updated {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88em;
+            color: #94a3b8;
+        }
+
+        .last-updated span#lastDailyUpdate {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        .update-badge {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid #3b82f6;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.8em;
+            color: #93c5fd;
+        }
+
+        .streak {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid #f97316;
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #fb923c;
+        }
+
+        .streak #streakDays {
+            font-size: 1.2em;
+        }
+
+        /* ── Status Grid ── */
         .status-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -79,15 +129,16 @@
             color: #cbd5e1;
         }
         
-        .wallet-section {
+        /* ── Panel (generic) ── */
+        .wallet-section, .panel {
             background: rgba(30, 58, 138, 0.8);
             border: 1px solid #3b82f6;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        
-        .wallet-section h2 {
+
+        .wallet-section h2, .panel h2 {
             color: #60a5fa;
             margin-bottom: 15px;
             border-bottom: 1px solid #1e40af;
@@ -167,7 +218,110 @@
             border-left-color: #ef4444;
             color: #ef4444;
         }
-        
+
+        /* ── Activity Log Panel ── */
+        #activityLog {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 340px;
+            overflow-y: auto;
+        }
+
+        .activity-entry {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 6px;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .activity-entry.milestone { border-left-color: #f59e0b; }
+        .activity-entry.success   { border-left-color: #10b981; }
+        .activity-entry.info      { border-left-color: #3b82f6; }
+        .activity-entry.daily-snapshot { border-left-color: #8b5cf6; }
+
+        .activity-emoji { font-size: 1.3em; flex-shrink: 0; }
+
+        .activity-body { display: flex; flex-direction: column; gap: 2px; }
+
+        .activity-message { font-size: 0.92em; color: #e2e8f0; }
+
+        .activity-date {
+            font-size: 0.78em;
+            color: #64748b;
+        }
+
+        .activity-loading {
+            color: #64748b;
+            font-style: italic;
+            font-size: 0.9em;
+            padding: 10px 0;
+        }
+
+        /* ── 7-Day Balance Chart ── */
+        .chart-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .chart-table th {
+            background: rgba(15, 23, 42, 0.6);
+            color: #93c5fd;
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #1e40af;
+        }
+
+        .chart-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(30, 58, 138, 0.4);
+            font-family: monospace;
+            color: #cbd5e1;
+        }
+
+        .chart-table tr:last-child td { border-bottom: none; }
+
+        .chart-table tr:hover td { background: rgba(59, 130, 246, 0.06); }
+
+        .chart-bar-cell { min-width: 160px; }
+
+        .chart-bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            height: 10px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transition: width 0.5s ease;
+            min-width: 2px;
+        }
+
+        .chart-bar-label {
+            font-size: 0.8em;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        .chart-empty {
+            color: #64748b;
+            font-style: italic;
+            padding: 16px 0;
+            font-size: 0.9em;
+        }
+
+        /* ── Footer ── */
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -187,22 +341,33 @@
         <header>
             <h1>⚔️ ZORO TESTNET DASHBOARD</h1>
             <div class="subtitle">Phase 2 - Testnet Operations & Pilot Trading</div>
-            <div style="margin-top: 10px; font-size: 0.9em; color: #94a3b8;">
-                <span class="live-indicator"></span>
-                Live Updates | Last Sync: <span class="timestamp" id="lastSync">Loading...</span>
+
+            <!-- Daily Meta Bar -->
+            <div class="daily-meta">
+                <div style="font-size: 0.9em; color: #94a3b8;">
+                    <span class="live-indicator"></span>
+                    Live Balance Sync | Last Sync: <span class="timestamp" id="lastSync">Loading...</span>
+                </div>
+                <div class="last-updated">
+                    🕐 Last daily update: <span id="lastDailyUpdate">Loading...</span>
+                    <span class="update-badge">Auto-updates daily at 9AM UTC</span>
+                </div>
+                <div class="streak">
+                    🔥 Day <span id="streakDays">1</span> of building
+                </div>
             </div>
         </header>
         
         <div class="status-grid">
             <div class="status-card">
                 <h3>🟦 Solana Devnet</h3>
-                <div class="status-value">2.0 SOL</div>
-                <div class="status-label">✅ Available</div>
+                <div class="status-value" id="solanaStatusVal">—</div>
+                <div class="status-label" id="solanaStatusLabel">Loading...</div>
             </div>
             <div class="status-card">
                 <h3>🟨 Base Sepolia</h3>
-                <div class="status-value" id="baseBal">Checking...</div>
-                <div class="status-label">Verifying...</div>
+                <div class="status-value" id="baseStatusVal">—</div>
+                <div class="status-label" id="baseStatusLabel">Loading...</div>
             </div>
             <div class="status-card">
                 <h3>📊 Pilot Trades</h3>
@@ -267,6 +432,7 @@
                         • Fixed 404 error<br>
                         • Updated GitHub Actions<br>
                         • Live metrics tracking<br>
+                        • Daily update system live<br>
                         <strong style="color: #10b981;">Status: COMPLETE</strong>
                     </div>
                 </div>
@@ -300,6 +466,22 @@
             </div>
         </div>
 
+        <!-- ── DAILY ACTIVITY LOG ── -->
+        <div class="panel">
+            <h2>📅 Daily Activity Log</h2>
+            <div id="activityLog">
+                <div class="activity-loading">Loading activity log…</div>
+            </div>
+        </div>
+
+        <!-- ── 7-DAY BALANCE HISTORY ── -->
+        <div class="panel">
+            <h2>📈 7-Day Balance History</h2>
+            <div class="chart-container">
+                <div id="balanceChart"><div class="chart-empty">Loading balance history…</div></div>
+            </div>
+        </div>
+
         <div class="wallet-section">
             <h2>📋 Testnet Operations Log</h2>
             <div class="log-container">
@@ -311,6 +493,7 @@
                 <div class="log-entry success">✅ All RPC endpoints verified working</div>
                 <div class="log-entry">📊 Gatekeeper 5-stage review: ACTIVE</div>
                 <div class="log-entry">🎯 Awaiting: Wallet funding confirmation + OAuth approval</div>
+                <div class="log-entry success">✅ Feb 19: Daily update system activated — cron running at 9AM UTC</div>
             </div>
         </div>
         
@@ -323,115 +506,225 @@
     </div>
     
     <script>
-        // RPC Endpoints
+        // ── RPC Endpoints ────────────────────────────────────────────────────
         const rpcs = {
-            solanaDev: 'https://solana-devnet.g.alchemy.com/v2/JB7IYC9GSIzz-JMoQcnq2',
+            solanaDev:   'https://solana-devnet.g.alchemy.com/v2/JB7IYC9GSIzz-JMoQcnq2',
             baseSepolia: 'https://base-sepolia.g.alchemy.com/v2/JB7IYC9GSIzz-JMoQcnq2',
-            ethSepolia: 'https://eth-sepolia.g.alchemy.com/v2/JB7IYC9GSIzz-JMoQcnq2'
+            ethSepolia:  'https://eth-sepolia.g.alchemy.com/v2/JB7IYC9GSIzz-JMoQcnq2'
         };
-        
-        // Wallet addresses
+
         const wallets = {
-            solana: '925Ss7kt3Gy7oEohuxzBGt9HKtdAbFSooAveYekqvC3v',
-            base: '0x3DE91DCF9D4d949237Bb77c3b2273878f9186f82',
+            solana:   '925Ss7kt3Gy7oEohuxzBGt9HKtdAbFSooAveYekqvC3v',
+            base:     '0x3DE91DCF9D4d949237Bb77c3b2273878f9186f82',
             ethereum: '0xFf4b06E931C69e6BDCac8e59298bB570e8D19f0e'
         };
-        
-        // Update timestamps
+
+        // ── Timestamp ────────────────────────────────────────────────────────
         function updateTimestamp() {
             const now = new Date();
             document.getElementById('lastSync').textContent = now.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                timeZone: 'UTC'
+                hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'UTC'
             }) + ' UTC';
         }
-        
-        // Fetch Solana balance
+
+        // ── Time-ago helper ──────────────────────────────────────────────────
+        function timeAgo(isoString) {
+            if (!isoString) return 'unknown';
+            const diff = Math.floor((Date.now() - new Date(isoString)) / 1000);
+            if (diff < 60)   return diff + 's ago';
+            if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+            if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+            return Math.floor(diff / 86400) + 'd ago';
+        }
+
+        // ── Live Balance Fetchers ────────────────────────────────────────────
         async function fetchSolanaBalance() {
             try {
                 const response = await fetch(rpcs.solanaDev, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        jsonrpc: '2.0',
-                        id: 1,
-                        method: 'getBalance',
-                        params: [wallets.solana]
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'getBalance', params: [wallets.solana] })
                 });
                 const data = await response.json();
                 const lamports = data.result?.value || 0;
-                const sol = lamports / 1e9;
-                document.getElementById('solanaBal').textContent = sol.toFixed(4) + ' SOL';
+                const sol = (lamports / 1e9).toFixed(4) + ' SOL';
+                document.getElementById('solanaBal').textContent = sol;
+                document.getElementById('solanaStatusVal').textContent = (lamports / 1e9).toFixed(2) + ' SOL';
+                document.getElementById('solanaStatusLabel').textContent = lamports > 0 ? '✅ Funded' : '⏳ Empty';
                 return sol;
             } catch (e) {
                 document.getElementById('solanaBal').textContent = 'Error fetching';
-                return 0;
+                return null;
             }
         }
-        
-        // Fetch Base balance
+
         async function fetchBaseBalance() {
             try {
                 const response = await fetch(rpcs.baseSepolia, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        jsonrpc: '2.0',
-                        id: 1,
-                        method: 'eth_getBalance',
-                        params: [wallets.base, 'latest']
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_getBalance', params: [wallets.base, 'latest'] })
                 });
                 const data = await response.json();
                 const wei = parseInt(data.result || '0', 16);
-                const eth = wei / 1e18;
-                document.getElementById('baseBal2').textContent = eth.toFixed(6) + ' ETH';
-                document.getElementById('baseStatus').textContent = eth > 0 ? '✅ Funded' : '⏳ Empty (awaiting funding)';
+                const eth = (wei / 1e18).toFixed(6) + ' ETH';
+                document.getElementById('baseBal2').textContent = eth;
+                document.getElementById('baseStatus').textContent = wei > 0 ? '✅ Funded' : '⏳ Empty (awaiting funding)';
+                document.getElementById('baseStatusVal').textContent = (wei / 1e18).toFixed(4) + ' ETH';
+                document.getElementById('baseStatusLabel').textContent = wei > 0 ? '✅ Funded' : '⏳ Empty';
                 return eth;
             } catch (e) {
                 document.getElementById('baseBal2').textContent = 'Error fetching';
-                return 0;
+                return null;
             }
         }
-        
-        // Fetch Ethereum balance
+
         async function fetchEthereumBalance() {
             try {
                 const response = await fetch(rpcs.ethSepolia, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        jsonrpc: '2.0',
-                        id: 1,
-                        method: 'eth_getBalance',
-                        params: [wallets.ethereum, 'latest']
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_getBalance', params: [wallets.ethereum, 'latest'] })
                 });
                 const data = await response.json();
                 const wei = parseInt(data.result || '0', 16);
-                const eth = wei / 1e18;
-                document.getElementById('ethBal').textContent = eth.toFixed(6) + ' ETH';
-                document.getElementById('ethStatus').textContent = eth > 0 ? '✅ Funded' : '⏳ Empty (awaiting funding)';
+                const eth = (wei / 1e18).toFixed(6) + ' ETH';
+                document.getElementById('ethBal').textContent = eth;
+                document.getElementById('ethStatus').textContent = wei > 0 ? '✅ Funded' : '⏳ Empty (awaiting funding)';
                 return eth;
             } catch (e) {
                 document.getElementById('ethBal').textContent = 'Error fetching';
-                return 0;
+                return null;
             }
         }
-        
-        // Initial updates
+
+        // ── Load Daily Data ──────────────────────────────────────────────────
+        async function loadLatest() {
+            try {
+                const res = await fetch('data/latest.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                // Last updated badge
+                document.getElementById('lastDailyUpdate').textContent = timeAgo(data.last_updated);
+                // Streak counter
+                document.getElementById('streakDays').textContent = data.streak_days || 1;
+            } catch {
+                document.getElementById('lastDailyUpdate').textContent = 'not yet run';
+            }
+        }
+
+        async function loadActivityLog() {
+            const container = document.getElementById('activityLog');
+            try {
+                const res = await fetch('data/activity-log.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                const entries = (data.entries || []).reverse(); // newest first
+                if (!entries.length) {
+                    container.innerHTML = '<div class="activity-loading">No activity yet.</div>';
+                    return;
+                }
+                container.innerHTML = entries.map(e => `
+                    <div class="activity-entry ${e.type || 'info'}">
+                        <span class="activity-emoji">${e.emoji || '📌'}</span>
+                        <div class="activity-body">
+                            <span class="activity-message">${escHtml(e.message)}</span>
+                            <span class="activity-date">${e.date}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch {
+                container.innerHTML = '<div class="activity-loading">Activity log unavailable.</div>';
+            }
+        }
+
+        async function loadBalanceHistory() {
+            const container = document.getElementById('balanceChart');
+            try {
+                const res = await fetch('data/daily-snapshots.json?t=' + Date.now());
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                const snapshots = (data.snapshots || []).slice(-7); // last 7 days
+
+                if (!snapshots.length) {
+                    container.innerHTML = '<div class="chart-empty">No snapshot data yet.</div>';
+                    return;
+                }
+
+                // Find max SOL for bar scaling
+                function parseNum(str) { return parseFloat((str || '0').replace(/[^0-9.]/g, '')) || 0; }
+                const maxSol = Math.max(...snapshots.map(s => parseNum(s.balances?.solana_devnet))) || 1;
+
+                const rows = snapshots.map(s => {
+                    const sol  = parseNum(s.balances?.solana_devnet);
+                    const base = parseNum(s.balances?.base_sepolia);
+                    const eth  = parseNum(s.balances?.eth_sepolia);
+                    const barPct = Math.max(4, Math.round((sol / maxSol) * 100));
+                    return `
+                        <tr>
+                            <td>${s.date}</td>
+                            <td class="chart-bar-cell">
+                                <div class="chart-bar-wrap">
+                                    <div class="chart-bar" style="width:${barPct}%"></div>
+                                    <span class="chart-bar-label">${s.balances?.solana_devnet || '—'}</span>
+                                </div>
+                            </td>
+                            <td>${s.balances?.base_sepolia || '—'}</td>
+                            <td>${s.balances?.eth_sepolia || '—'}</td>
+                            <td style="color:#f59e0b">${s.milestone ? escHtml(s.milestone) : '—'}</td>
+                        </tr>`;
+                }).reverse().join('');
+
+                container.innerHTML = `
+                    <table class="chart-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Solana Devnet</th>
+                                <th>Base Sepolia</th>
+                                <th>ETH Sepolia</th>
+                                <th>Milestone</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rows}</tbody>
+                    </table>`;
+            } catch {
+                container.innerHTML = '<div class="chart-empty">Balance history unavailable.</div>';
+            }
+        }
+
+        // ── Sanitize ─────────────────────────────────────────────────────────
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        // ── Init ─────────────────────────────────────────────────────────────
         updateTimestamp();
         fetchSolanaBalance();
         fetchBaseBalance();
         fetchEthereumBalance();
-        
-        // Refresh every 30 seconds
+        loadLatest();
+        loadActivityLog();
+        loadBalanceHistory();
+
+        // Refresh live balances every 30 seconds
         setInterval(() => {
             updateTimestamp();
             fetchSolanaBalance();
             fetchBaseBalance();
             fetchEthereumBalance();
         }, 30000);
+
+        // Refresh daily data every 5 minutes
+        setInterval(() => {
+            loadLatest();
+            loadActivityLog();
+            loadBalanceHistory();
+        }, 300000);
     </script>
 </body>
 </html>

@@ -1,0 +1,28 @@
+{
+  "snapshots": [
+    {
+      "date": "2026-02-18",
+      "balances": {
+        "solana_devnet": "2.0000 SOL",
+        "base_sepolia": "0.000000 ETH",
+        "eth_sepolia": "0.000000 ETH"
+      },
+      "eth_price_usd": 2500,
+      "tasks_completed": 0,
+      "tasks_active": 5,
+      "milestone": "Dashboard launched 🚀"
+    },
+    {
+      "date": "2026-02-19",
+      "balances": {
+        "solana_devnet": "0.0000 SOL",
+        "base_sepolia": "0.000000 ETH",
+        "eth_sepolia": "0.000000 ETH"
+      },
+      "eth_price_usd": 2500,
+      "tasks_completed": 0,
+      "tasks_active": 5,
+      "milestone": null
+    }
+  ]
+}

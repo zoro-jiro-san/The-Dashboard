@@ -1,0 +1,15 @@
+{
+  "last_updated": "2026-02-19T00:39:42.586Z",
+  "balances": {
+    "solana_devnet": "0.0000 SOL",
+    "base_sepolia": "0.000000 ETH",
+    "eth_sepolia": "0.000000 ETH"
+  },
+  "daily_change": {
+    "solana_devnet": "-2.0000",
+    "base_sepolia": "+0.000000",
+    "eth_sepolia": "+0.000000"
+  },
+  "streak_days": 2,
+  "total_tasks_completed": 0
+}
