@@ -13,10 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -34,16 +35,20 @@ jobs:
           BASE_WALLET: "0x3DE91DCF9D4d949237Bb77c3b2273878f9186f82"
           ETH_WALLET: "0xFf4b06E931C69e6BDCac8e59298bB570e8D19f0e"
 
-      - name: Sync data into dist/ for GitHub Pages
-        run: |
-          mkdir -p dist/data
-          cp data/*.json dist/data/
-          echo "✅ data/ synced to dist/data/"
-
-      - name: Commit and push daily update
+      - name: Commit updated data to main
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add data/ dist/data/
+          git add data/
           git diff --staged --quiet || git commit -m "chore: daily dashboard update $(date -u +'%Y-%m-%d %H:%M UTC')"
-          git push
+          git push origin main
+
+      - name: Checkout gh-pages branch and sync data
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          mkdir -p data
+          git checkout main -- data/
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: sync data to gh-pages $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push origin gh-pages
